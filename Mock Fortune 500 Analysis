@@ -58,6 +58,7 @@ VALUES
     ('Company JJ', 'Manufacturing', 370.0, 3100, 1, 20, 12, 7.6),
     ('Company KK', 'Healthcare', 150.2, 3400, 0, 16, 8, 5.3);
 
+
 #Which Industries have higher Employee Tenure
 
 SELECT industry,
@@ -68,6 +69,7 @@ ORDER BY 'Average Tenure' ASC;
 
 
 #The ratio of Revenue to the amount of Employees by Company
+
 Select company_name,
 ROUND(((revenue*1000000000)/employees),2) as 'Revenue per Employee'
 from fortune_companies;
@@ -80,6 +82,7 @@ From fortune_companies
 Where healthcare_benefits=1
 AND paid_time_off_days>=15;
 
+
 #Average Tenure for Employees of Companies with HealthCare vs. Without
 
 Select
@@ -88,4 +91,18 @@ WHEN healthcare_benefits=0 THEN 'Companies without Healthcare' END as Healthcare
 Round(AVG(avg_employee_tenure),2) as 'Average Employee Tenure'
 From fortune_companies
 Group by Healthcare;
+
+
+#Compare Total Revenue, Average and Total Employees between Technology and Non-Tech Companies
+
+Select
+Case WHEN industry in ('Technology','Telecommunications','Energy') 
+THEN 'Tech' ELSE 'Other' END as Industry_Check,
+SUM(revenue) as Total_Revenue,
+Count(company_name) as Volume,
+ROUND(AVG(employees)) as Average_Employees,
+SUM(employees) as Total_Employees
+From fortune_companies
+Group by Industry_Check
+ORDER BY Industry_Check DESC;
 
