@@ -68,11 +68,14 @@ GROUP BY industry
 ORDER BY 'Average Tenure' ASC;
 
 
-#The ratio of Revenue to the amount of Employees by Company
+#What is the ratio of Revenue to Employees with Companies that have a Revenue of at least 1 Million Dollars per Empoloyee 
 
 Select company_name,
-ROUND(((revenue*1000000000)/employees),2) as 'Revenue per Employee'
-from fortune_companies;
+ROUND(((revenue*1000000000)/employees),2) as revenue_per_employee
+FROM fortune_companies
+GROUP BY company_name
+HAVING revenue_per_employee>=1000000
+ORDER BY revenue_per_employee DESC;
 
 
 #Companies that have Healthcare Benefits AND at least 15 days of Paid Time Off
